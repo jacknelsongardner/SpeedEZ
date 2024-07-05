@@ -9,13 +9,38 @@
 <body>
     <input type="file" id="file-input" />
     <pre id="pdf-content"></pre>
+    <h2 id="speedWords">speed read text will display here</h2>
+    <button onclick="stepForward()">-></button>
 
     <script>
-        
-    </script>
-
-    <script>
+        const wordsAtATime = 3;
+        let wordIndex = 0;
         const locationName = "splitBook";
+
+        function stepForward() {
+            let storedArray = JSON.parse(sessionStorage.getItem(locationName));
+            console.log(storedArray[wordIndex]);
+            wordIndex += wordsAtATime;
+            loadNextWords();
+        }
+
+        function loadNextWords() {
+            let storedArray = JSON.parse(sessionStorage.getItem(locationName));
+
+            // Select the <h2> element by its ID
+            let heading = document.getElementById('speedWords');
+            let newWords = "";
+
+            for (let i = 0; i < wordsAtATime; i++) {
+                if (wordIndex + i < storedArray.length) {
+                    newWords += storedArray[wordIndex + i] + " ";
+                }
+            }
+
+            // Replace the text content of the <h2> element
+            console.log(newWords);
+            heading.textContent = newWords.trim();
+        }
 
         document.getElementById('file-input').addEventListener('change', function(event) {
             const file = event.target.files[0];
@@ -48,12 +73,12 @@
                         }
 
                         Promise.all(textPromises).then(texts => {
-                            textContent = texts.join('\n');
-                            const strArray = str.split(/\s+/);
-                            sessionStorage.setItem(locationName, JSON.stringify(myArray));
+                            textContent = texts.join(' ');
+                            let strArray = textContent.split(/\s+/);
+                            sessionStorage.setItem(locationName, JSON.stringify(strArray));
 
                             // Retrieving the array
-                            const storedArray = JSON.parse(sessionStorage.getItem(locationName));
+                            let storedArray = JSON.parse(sessionStorage.getItem(locationName));
                             console.log(storedArray[0]);
                         });
                     });
@@ -63,10 +88,5 @@
             reader.readAsArrayBuffer(file);
         });
     </script>
-
-
-
-
-
 </body>
 </html>
