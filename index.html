@@ -5,30 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Text Extraction</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+   
+
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        #coverImage {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        #pdf-content {
+            height: 150px;
+            overflow: auto;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .slider {
+            width: 100%;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .bookmarks {
+            margin-top: 20px;
+        }
+    </style>
+
 </head>
 <body>
-    <h2 id="bookTitle"></h2>
-    <canvas id="coverImage"></canvas>
-    <input type="file" id="file-input" />
-    <pre id="pdf-content"></pre>
-    <h2 id="speedWords">speed read text will display here</h2>
     
     
-
-    <button onclick="stepBackward()">/-</button>
-    <button onclick="stepForward()">-></button>
-    <button onclick="toggle()">PLAY</button>  
-
-    <button onclick="getBookmark(selectedBook)">Load Bookmark</button>
-    <button onclick="setBookmark(selectedBook, wordIndex, 1)">Save Bookmark</button>
-
-    <p>Reading Speed</p>
-    <input type="range" min="100" max="1000" value="500" class="slider" id="speedSlider">
-    <p>Value: <span id="speedValue">50</span></p>
-
-    <p>Place</p>
-    <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled>
-    <p>Value: <span id="placeValue">50</span></p>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div style="margin-right: 100px; margin-left: 100px; text-justify: center;">
+        <div class="container">
+            <h2 id="bookTitle" class="text-center">Book Title</h2>
+            <canvas id="coverImage"></canvas>
+            <input type="file" id="file-input" class="form-control-file my-3" />
+            <pre id="pdf-content"></pre>
+            <h2 id="speedWords" class="text-center">Speed read text will display here</h2>
+            
+            <div class="controls text-center">
+                <button class="btn btn-primary mx-1" onclick="stepBackward()">&#x25C0; Backward</button>
+                <button class="btn btn-primary mx-1" onclick="stepForward()">Forward &#x25B6;</button>
+                <button class="btn btn-success mx-1" onclick="toggle()">PLAY</button>
+            </div>
+            
+            <div class="bookmarks text-center">
+                <button class="btn btn-info mx-1" onclick="getBookmark(selectedBook)">Load Bookmark</button>
+                <button class="btn btn-info mx-1" onclick="setBookmark(selectedBook, wordIndex, 1)">Save Bookmark</button>
+            </div>
+            
+            <div class="mt-4">
+                <p>Reading Speed</p>
+                <input type="range" min="100" max="1000" value="500" class="slider" id="speedSlider">
+                <p>Value: <span id="speedValue">500</span></p>
+            </div>
+    
+            <div class="mt-4">
+                <p>Place</p>
+                <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled>
+                <p>Value: <span id="placeValue">0</span></p>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
     <script>
@@ -156,18 +215,18 @@
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
             console.log(storedArray[wordIndex]);
             
+            wordIndex += wordsAtATime;
             loadWords(1, 0);
 
-            wordIndex += wordsAtATime;
         }
 
         function stepBackward() {
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
             console.log(storedArray[wordIndex]);
             
-            loadWords(-1, 0);
-
             wordIndex -= wordsAtATime;
+            loadWords(1, 0);
+
         }
 
         function loadWords(direction, jump) {
