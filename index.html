@@ -10,10 +10,12 @@
     <input type="file" id="file-input" />
     <pre id="pdf-content"></pre>
     <h2 id="speedWords">speed read text will display here</h2>
+    
+    <button onclick="stepBackward()">/-</button>
     <button onclick="stepForward()">-></button>
-
+    
     <script>
-        const wordsAtATime = 3;
+        let wordsAtATime = 3;
         let wordIndex = 0;
         const locationName = "splitBook";
 
@@ -21,10 +23,17 @@
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
             console.log(storedArray[wordIndex]);
             wordIndex += wordsAtATime;
-            loadNextWords();
+            loadWords(1, 0);
         }
 
-        function loadNextWords() {
+        function stepBackward() {
+            let storedArray = JSON.parse(sessionStorage.getItem(locationName));
+            console.log(storedArray[wordIndex]);
+            wordIndex -= wordsAtATime;
+            loadWords(-1, 0);
+        }
+
+        function loadWords(direction, jump) {
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
 
             // Select the <h2> element by its ID
@@ -32,14 +41,18 @@
             let newWords = "";
 
             for (let i = 0; i < wordsAtATime; i++) {
-                if (wordIndex + i < storedArray.length) {
-                    newWords += storedArray[wordIndex + i] + " ";
+                if (wordIndex + (i * jump) + (i * direction) < storedArray.length && wordIndex + (i * direction) >= 0) {
+                    newWords += storedArray[wordIndex + (direction * i)] + " ";
                 }
             }
 
             // Replace the text content of the <h2> element
             console.log(newWords);
-            heading.textContent = newWords.trim();
+            if (newWords != null && newWords != "") 
+            {
+                heading.textContent = newWords.trim();
+            }
+                
         }
 
         document.getElementById('file-input').addEventListener('change', function(event) {
