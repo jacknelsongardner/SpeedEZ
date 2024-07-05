@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </head>
 <body>
+    <h2 id="bookTitle"></h2>
     <canvas id="coverImage"></canvas>
     <input type="file" id="file-input" />
     <pre id="pdf-content"></pre>
@@ -16,18 +17,70 @@
 
     <button onclick="stepBackward()">/-</button>
     <button onclick="stepForward()">-></button>
-    <button onclick="toggle()">PLAY</button>    
+    <button onclick="toggle()">PLAY</button>  
+
+    <button onclick="getBookmark(selectedBook)">Load Bookmark</button>
+    <button onclick="setBookmark(selectedBook, wordIndex, 1)">Save Bookmark</button>
+
 
     <script>
+
+        // Select the <h2> element and assign it to a variable
+        var titleElement = document.getElementById('bookTitle');
+
+       
+
         let wordsAtATime = 5;
         let wordIndex = 0;
         const locationName = "splitBook";
 
+        let wordInterval = 200;
+
         let isPlaying = false;
+
+        let selectedBook = "No Book Selected";
+        let pastBooks = {};
+
+         // Set the text content of the <h2> element using JavaScript
+        titleElement.textContent = selectedBook;
 
         function toggle() {
             if (!isPlaying) { play()}
             else {stop()}
+        }
+
+        function setBookmark(cookieName, cookieValue, expirationDays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + d.toUTCString();
+            document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+        }
+
+        function getBookmark(cookieName) {
+            console.log(cookieName);
+
+            const name = cookieName + "=";
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookieArray = decodedCookie.split(';');
+            for(let i = 0; i < cookieArray.length; i++) {
+                let cookie = cookieArray[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) === 0) {
+                    // Extract the value part (which is a number)
+                    var valueString = cookie.substring(name.length); // +1 to skip '='
+                    console.log(valueString);
+
+                    // Convert the string value to a number
+                    wordIndex = parseInt(valueString);
+                    
+                }
+            }
+
+            console.log("word index: " + wordIndex);
+            loadWords(1,0);
+            
         }
 
         function play() {
@@ -37,7 +90,7 @@
                 blinkInterval = setInterval(() => {
                     console.log("played");
                     stepForward();
-                }, 300);
+                }, wordInterval);
             }
         }
 
@@ -51,15 +104,19 @@
         function stepForward() {
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
             console.log(storedArray[wordIndex]);
-            wordIndex += wordsAtATime;
+            
             loadWords(1, 0);
+
+            wordIndex += wordsAtATime;
         }
 
         function stepBackward() {
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
             console.log(storedArray[wordIndex]);
-            wordIndex -= wordsAtATime;
+            
             loadWords(-1, 0);
+
+            wordIndex -= wordsAtATime;
         }
 
         function loadWords(direction, jump) {
@@ -81,6 +138,8 @@
             {
                 heading.textContent = newWords.trim();
             }
+
+            console.log(wordIndex);
                 
         }
 
@@ -137,6 +196,11 @@
         });
 
         function displayCoverPage(pdfData) {
+            const input = document.getElementById('file-input');
+            selectedBook = input.files[0].name;
+            titleElement.textContent = selectedBook;
+            
+
             // Load PDF document
             pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
                 // Fetch the first page
