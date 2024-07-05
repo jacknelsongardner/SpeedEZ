@@ -127,6 +127,8 @@
         let selectedBook = "No Book Selected";
         let pastBooks = {};
 
+        let wpm = 100;
+
          // Set the text content of the <h2> element using JavaScript
         titleElement.textContent = selectedBook;
 
@@ -150,7 +152,8 @@
             var modifiedVariable = slider.value;
             console.log("Modified variable:", modifiedVariable);
             
-            wordInterval = slider.value;
+            wpm = slider.value;
+            wordInterval = (60000 / wpm) * wordsAtATime;
             // You can use 'modifiedVariable' for further operations
         });
 
