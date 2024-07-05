@@ -13,11 +13,37 @@
     
     <button onclick="stepBackward()">/-</button>
     <button onclick="stepForward()">-></button>
-    
+    <button onclick="toggle()">PLAY</button>    
+
     <script>
-        let wordsAtATime = 3;
+        let wordsAtATime = 5;
         let wordIndex = 0;
         const locationName = "splitBook";
+
+        let isPlaying = false;
+
+        function toggle() {
+            if (!isPlaying) { play()}
+            else {stop()}
+        }
+
+        function play() {
+            if (!isPlaying) {
+                
+                isPlaying = true;
+                blinkInterval = setInterval(() => {
+                    console.log("played");
+                    stepForward();
+                }, 300);
+            }
+        }
+
+        function stop() {
+            if (isPlaying) {
+                clearInterval(blinkInterval);
+                isPlaying = false;
+            }
+        }
 
         function stepForward() {
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
@@ -42,7 +68,7 @@
 
             for (let i = 0; i < wordsAtATime; i++) {
                 if (wordIndex + (i * jump) + (i * direction) < storedArray.length && wordIndex + (i * direction) >= 0) {
-                    newWords += storedArray[wordIndex + (direction * i)] + " ";
+                    newWords += storedArray[wordIndex + (i * jump) + (direction * i)] + " ";
                 }
             }
 
@@ -99,6 +125,8 @@
             };
 
             reader.readAsArrayBuffer(file);
+            loadWords();
+            wordIndex = 0;
         });
     </script>
 </body>
