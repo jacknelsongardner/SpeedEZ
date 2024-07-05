@@ -11,7 +11,7 @@
     <style>
         body {
             padding: 20px;
-            background-color: #f8f9fa;
+            background-color: #6ab5ff;
         }
         #coverImage {
             width: 100px;
@@ -28,6 +28,7 @@
         }
         .slider {
             width: 50%;
+            height: 20px;
         }
         .controls {
             margin-top: 20px;
@@ -46,6 +47,36 @@
             margin-bottom: 30px;
             background-color: white;
         }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #8b8b8b;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #d2d2d2;
+        cursor: pointer;
+        }
+
+        @media screen and (max-width: 600px) {
+        #speedWords {
+            font-size: 24px; /* Adjust as needed */
+        }
+    }
+
+    @media screen and (min-width: 601px) and (max-width: 900px) {
+        #speedWords {
+            font-size: 30px; /* Adjust as needed */
+        }
+    }
+
+        
     </style>
 
 </head>
@@ -58,50 +89,50 @@
     
     
     
+    <nav style="background-color: #399cff; text-align: center;"> <p style="font-size: xx-large; color: white;">Speedy</p></nav>
     
+    <div style="margin-right: 100px; margin-left: 100px; text-align: center; ">
+        <div class="container" style="display: flex; flex-direction: column; align-items: center;">
     
-    
-    
-    <div style="margin-right: 100px; margin-left: 100px; text-justify: center; background-color: rgb(211, 211, 211);">
-        <div class="container">
-            <h2 id="bookTitle" class="text-center">Book Title</h2>
-            
-            
-            <div id="textContainer">
-                <h2 id="speedWords" class="text-center">Speed read text will display here</h2>
-            
+            <div id="textContainer" style="margin-top: 50px; min-width: 400px;">
+                <h2 id="speedWords" class="text-center" style="margin-top: 60px; margin-bottom: 60px; margin-right: 20px; margin-left: 20px; white-space: nowrap; text-size-adjust: auto;">Speed read text will display here</h2>
             </div>
-            
-            <div class="mt-4" style="text-align: center;">
+    
+            <div class="mt-4" style="text-align: center; display: flex; align-items: center; justify-content: center;">
+                <p><span style="margin-right: 15px;" id="placeValue">0</span></p>
                 <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled>
-                <p>Value: <span id="placeValue">0</span></p>
+                <p><span style="margin-left: 15px;" id="placeDestination">0</span></p>
             </div>
-
-            <div class="controls text-center">
+    
+            <div class="controls text-center" style="margin-top: 20px; display: flex; max-height: 50px;">
                 <button class="btn btn-primary mx-1" onclick="stepBackward()">&#x25C0; Backward</button>
                 <button class="btn btn-success mx-1" onclick="toggle()">PLAY</button>
                 <button class="btn btn-primary mx-1" onclick="stepForward()">Forward &#x25B6;</button>
             </div>
-            
-            <div class="bookmarks text-center">
+    
+            <div class="bookmarks text-center" style="margin-top: 20px; display: flex;">
                 <button class="btn btn-info mx-1" onclick="getBookmark(selectedBook)">Load Bookmark</button>
                 <button class="btn btn-info mx-1" onclick="setBookmark(selectedBook, wordIndex, 1)">Save Bookmark</button>
             </div>
-
-            <canvas id="coverImage"></canvas>
-            <input type="file" id="file-input" class="form-control-file my-3" />
+    
+            <canvas id="coverImage" style="display: inline-block; margin-left: 10px;">
+                <div style="text-align: center; margin-top: 20px;">
+                    <input type="file" id="file-input" class="form-control-file my-3" style="display: inline-block;">
+                </div>    
+            </canvas>
+           
             
-            
-            <div class="mt-4">
-                <p>Reading Speed</p>
+    
+            <div style="text-align: center; margin-top: 20px;">
+                <p style="display: inline-block; margin-right: 10px;">Reading Speed</p>
+                <p style="display: inline-block; margin-right: 10px;"><span id="speedValue">500</span></p>
                 <input type="range" min="100" max="1000" value="500" class="slider" id="speedSlider">
-                <p>Value: <span id="speedValue">500</span></p>
             </div>
     
-            
         </div>
-        
     </div>
+    
+    
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -111,7 +142,21 @@
     <script>
 
         
-        
+        var canvas = document.getElementById('coverImage');
+        var ctx = canvas.getContext('2d');
+
+        // Create an image element
+        var img = new Image();
+
+        // Set the image source (replace 'default-image.jpg' with your image path)
+        img.src = 'default.png';
+
+        // When the image has loaded, draw it onto the canvas
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+
+
 
         var titleElement = document.getElementById('bookTitle');
 
@@ -120,14 +165,14 @@
         let wordIndex = 0;
         const locationName = "splitBook";
 
-        let wordInterval = 200;
+        let wordInterval = 500;
 
         let isPlaying = false;
 
         let selectedBook = "No Book Selected";
         let pastBooks = {};
 
-        let wpm = 100;
+        let wpm = 500;
 
          // Set the text content of the <h2> element using JavaScript
         titleElement.textContent = selectedBook;
@@ -171,6 +216,8 @@
             var output = document.getElementById("placeValue");
             output.innerHTML = wordIndex;
 
+            var end = document.getElementById("placeDestination");
+            end.innerHTML = length - wordIndex;
         }
 
         function toggle() {
@@ -181,6 +228,7 @@
         
 
         function setBookmark(cookieName, cookieValue, expirationDays) {
+            stop();
             const d = new Date();
             d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
             const expires = "expires=" + d.toUTCString();
@@ -188,6 +236,8 @@
         }
 
         function getBookmark(cookieName) {
+            stop();
+            
             console.log(cookieName);
 
             const name = cookieName + "=";
