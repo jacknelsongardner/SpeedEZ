@@ -14,8 +14,8 @@
             background-color: #f8f9fa;
         }
         #coverImage {
-            width: 100%;
-            height: 300px;
+            width: 100px;
+            height: 100px;
             border: 1px solid #ddd;
             margin-bottom: 20px;
         }
@@ -27,13 +27,24 @@
             border: 1px solid #ddd;
         }
         .slider {
-            width: 100%;
+            width: 50%;
         }
         .controls {
             margin-top: 20px;
         }
         .bookmarks {
             margin-top: 20px;
+        }
+
+        #textContainer {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            background-color: white;
         }
     </style>
 
@@ -51,24 +62,35 @@
     
     
     
-    <div style="margin-right: 100px; margin-left: 100px; text-justify: center;">
+    <div style="margin-right: 100px; margin-left: 100px; text-justify: center; background-color: rgb(211, 211, 211);">
         <div class="container">
             <h2 id="bookTitle" class="text-center">Book Title</h2>
-            <canvas id="coverImage"></canvas>
-            <input type="file" id="file-input" class="form-control-file my-3" />
-            <pre id="pdf-content"></pre>
-            <h2 id="speedWords" class="text-center">Speed read text will display here</h2>
             
+            
+            <div id="textContainer">
+                <h2 id="speedWords" class="text-center">Speed read text will display here</h2>
+            
+            </div>
+            
+            <div class="mt-4" style="text-align: center;">
+                <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled>
+                <p>Value: <span id="placeValue">0</span></p>
+            </div>
+
             <div class="controls text-center">
                 <button class="btn btn-primary mx-1" onclick="stepBackward()">&#x25C0; Backward</button>
-                <button class="btn btn-primary mx-1" onclick="stepForward()">Forward &#x25B6;</button>
                 <button class="btn btn-success mx-1" onclick="toggle()">PLAY</button>
+                <button class="btn btn-primary mx-1" onclick="stepForward()">Forward &#x25B6;</button>
             </div>
             
             <div class="bookmarks text-center">
                 <button class="btn btn-info mx-1" onclick="getBookmark(selectedBook)">Load Bookmark</button>
                 <button class="btn btn-info mx-1" onclick="setBookmark(selectedBook, wordIndex, 1)">Save Bookmark</button>
             </div>
+
+            <canvas id="coverImage"></canvas>
+            <input type="file" id="file-input" class="form-control-file my-3" />
+            
             
             <div class="mt-4">
                 <p>Reading Speed</p>
@@ -76,11 +98,7 @@
                 <p>Value: <span id="speedValue">500</span></p>
             </div>
     
-            <div class="mt-4">
-                <p>Place</p>
-                <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled>
-                <p>Value: <span id="placeValue">0</span></p>
-            </div>
+            
         </div>
         
     </div>
