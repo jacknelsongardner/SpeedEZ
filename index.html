@@ -22,13 +22,23 @@
     <button onclick="getBookmark(selectedBook)">Load Bookmark</button>
     <button onclick="setBookmark(selectedBook, wordIndex, 1)">Save Bookmark</button>
 
+    <p>Reading Speed</p>
+    <input type="range" min="0" max="100" value="50" class="slider" id="speedSlider">
+    <p>Value: <span id="speedValue">50</span></p>
+
+    <p>Place</p>
+    <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled>
+    <p>Value: <span id="placeValue">50</span></p>
+
 
     <script>
 
-        // Select the <h2> element and assign it to a variable
+
+
+        
+
         var titleElement = document.getElementById('bookTitle');
 
-       
 
         let wordsAtATime = 5;
         let wordIndex = 0;
@@ -44,10 +54,27 @@
          // Set the text content of the <h2> element using JavaScript
         titleElement.textContent = selectedBook;
 
+        function updatePlaceSlider()
+        {
+            let storedArray = JSON.parse(sessionStorage.getItem(locationName));
+            let length = storedArray.length;
+
+            let placeSlideVal = (wordIndex / length) * 100;
+            
+            var slider = document.getElementById("placeSlider");
+            slider.value = placeSlideVal;
+
+            var output = document.getElementById("speedValue");
+            output.innerHTML = wordIndex;
+
+        }
+
         function toggle() {
             if (!isPlaying) { play()}
             else {stop()}
         }
+
+        
 
         function setBookmark(cookieName, cookieValue, expirationDays) {
             const d = new Date();
@@ -139,6 +166,8 @@
                 heading.textContent = newWords.trim();
             }
 
+            updatePlaceSlider();
+            
             console.log(wordIndex);
                 
         }
