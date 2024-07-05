@@ -11,6 +11,12 @@
     <pre id="pdf-content"></pre>
 
     <script>
+        
+    </script>
+
+    <script>
+        const locationName = "splitBook";
+
         document.getElementById('file-input').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file.type !== 'application/pdf') {
@@ -43,7 +49,12 @@
 
                         Promise.all(textPromises).then(texts => {
                             textContent = texts.join('\n');
-                            document.getElementById('pdf-content').textContent = textContent;
+                            const strArray = str.split(/\s+/);
+                            sessionStorage.setItem(locationName, JSON.stringify(myArray));
+
+                            // Retrieving the array
+                            const storedArray = JSON.parse(sessionStorage.getItem(locationName));
+                            console.log(storedArray[0]);
                         });
                     });
                 });
@@ -52,5 +63,10 @@
             reader.readAsArrayBuffer(file);
         });
     </script>
+
+
+
+
+
 </body>
 </html>
