@@ -7,10 +7,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </head>
 <body>
+    <canvas id="coverImage"></canvas>
     <input type="file" id="file-input" />
     <pre id="pdf-content"></pre>
     <h2 id="speedWords">speed read text will display here</h2>
     
+    
+
     <button onclick="stepBackward()">/-</button>
     <button onclick="stepForward()">-></button>
     <button onclick="toggle()">PLAY</button>    
@@ -91,8 +94,12 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 const typedArray = new Uint8Array(e.target.result);
+                displayCoverPage(typedArray);
 
                 pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
+                    
+                    
+                    
                     let textContent = '';
 
                     const numPages = pdf.numPages;
@@ -128,6 +135,26 @@
             loadWords();
             wordIndex = 0;
         });
+
+        function displayCoverPage(pdfData) {
+            // Load PDF document
+            pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
+                // Fetch the first page
+                pdf.getPage(1).then(function(page) {
+                    const viewport = page.getViewport({ scale: 1 });
+                    const canvas = document.getElementById('coverImage');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    // Render PDF page into canvas context
+                    page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    });
+                });
+            });
+        }
     </script>
 </body>
 </html>
