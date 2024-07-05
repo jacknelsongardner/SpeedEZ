@@ -217,7 +217,13 @@
                 isPlaying = true;
                 blinkInterval = setInterval(() => {
                     console.log("played");
-                    stepForward();
+                    
+                    let storedArray = JSON.parse(sessionStorage.getItem(locationName));
+                    console.log(storedArray[wordIndex]);
+                    
+                    wordIndex += wordsAtATime;
+                    loadWords(1, 0);
+                    
                 }, wordInterval);
             }
         }
@@ -230,6 +236,7 @@
         }
 
         function stepForward() {
+            stop();
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
             console.log(storedArray[wordIndex]);
             
@@ -239,6 +246,7 @@
         }
 
         function stepBackward() {
+            stop();
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
             console.log(storedArray[wordIndex]);
             
