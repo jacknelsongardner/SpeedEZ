@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Text Extraction</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+</head>
+<body>
+    <input type="file" id="file-input" />
+    <pre id="pdf-content"></pre>
+
+    <script>
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file.type !== 'application/pdf') {
+                alert('Please select a PDF file.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const typedArray = new Uint8Array(e.target.result);
+
+                pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
+                    let textContent = '';
+
+                    const numPages = pdf.numPages;
+                    let pagePromises = [];
+
+                    for (let pageNum = 1; pageNum <= numPages; pagePromises.push(pdf.getPage(pageNum)), pageNum++);
+
+                    Promise.all(pagePromises).then(pages => {
+                        let textPromises = [];
+
+                        for (let page of pages) {
+                            textPromises.push(page.getTextContent().then(function(textContent) {
+                                return textContent.items.map(function(item) {
+                                    return item.str;
+                                }).join(' ');
+                            }));
+                        }
+
+                        Promise.all(textPromises).then(texts => {
+                            textContent = texts.join('\n');
+                            document.getElementById('pdf-content').textContent = textContent;
+                        });
+                    });
+                });
+            };
+
+            reader.readAsArrayBuffer(file);
+        });
+    </script>
+</body>
+</html>
