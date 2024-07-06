@@ -6,7 +6,6 @@
     <title>PDF Text Extraction</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
 
     <style>
 
@@ -263,7 +262,7 @@
                                 
                                 <!--<p> Drag and drop PDF or</p>-->
                                 <label for="file-input" class="btn btn-success">
-                                    Click to Upload <input type="file" id="file-input" accept=".pdf" style="display: none;" onchange="handleFileUpload(event)">
+                                    Click to Upload <input type="file" id="file-input" accept=".pdf" style="display: none;">
                                 </label>
                             </div>
 
@@ -618,6 +617,8 @@
         }
 
         document.getElementById('file-input').addEventListener('change', function(event) {
+            console.log("recieved file");
+            
             const file = event.target.files[0];
             if (file.type !== 'application/pdf') {
                 alert('Please select a PDF file.');
@@ -627,6 +628,8 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 const typedArray = new Uint8Array(e.target.result);
+                console.log(typedArray);
+                
                 displayCoverPage(typedArray);
 
                 pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
@@ -655,6 +658,9 @@
                             textContent = texts.join(' ');
                             let strArray = textContent.split(/\s+/);
                             sessionStorage.setItem(locationName, JSON.stringify(strArray));
+                            
+                            console.log(locationName);
+                            console.log(strArray);
 
                             // Retrieving the array
                             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
@@ -666,9 +672,12 @@
                 
             };
 
+            
+
             reader.readAsArrayBuffer(file);
             
             wordIndex = 0;
+            loadWords(1,0);
         });
 
         
@@ -680,7 +689,7 @@
             let titleElement = document.getElementById("bookTitle");
             titleElement.textContent = selectedBook;
             
-            loadWords(1,0);
+            
                 
 
             // Load PDF document
