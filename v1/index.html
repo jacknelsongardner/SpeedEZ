@@ -134,7 +134,7 @@
     <div style=" text-align: center; ">
         <div class="container" style="display: flex; flex-direction: column; align-items: center;">
     
-            <div id="textContainer" style="margin-top: 100px; min-width: 400px; margin-bottom: 220px;">
+            <div id="textContainer" style="margin-top: 100px; min-width: 400px; margin-bottom: 100px;">
                 
                 <h2 id="lastWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem); color: rgb(159, 159, 159);">Last piece of text goes here</h2>
 
@@ -520,6 +520,7 @@
             {
                 current.textContent = newWords.trim();
             }
+            else { last.textContent = "..."}
 
             newWords = "";
 
@@ -538,6 +539,7 @@
             {
                 last.textContent = newWords.trim();
             }
+            else { last.textContent = "..."}
 
 
             newWords = "";
@@ -557,6 +559,7 @@
             {
                 next.textContent = newWords.trim();
             }
+            else { next.textContent = "..."}
 
 
 
