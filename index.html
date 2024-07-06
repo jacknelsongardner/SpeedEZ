@@ -13,12 +13,6 @@
             padding: 20px;
             background-color: #6ab5ff;
         }
-        #coverImage {
-            width: 100px;
-            height: 100px;
-            border: 1px solid #ddd;
-            margin-bottom: 20px;
-        }
         #pdf-content {
             height: 150px;
             overflow: auto;
@@ -29,6 +23,7 @@
         .slider {
             width: 50%;
             height: 20px;
+            background-color: #46de4e;
         }
         .controls {
             margin-top: 20px;
@@ -57,9 +52,11 @@
             cursor: pointer;
         }
 
+        
+
         .slider::-moz-range-thumb {
-        width: 25px;
-        height: 25px;
+        width: 15px;
+        height: 15px;
         background: #d2d2d2;
         cursor: pointer;
         }
@@ -67,14 +64,28 @@
         @media screen and (max-width: 600px) {
         #speedWords {
             font-size: 24px; /* Adjust as needed */
+            }
         }
-    }
 
-    @media screen and (min-width: 601px) and (max-width: 900px) {
-        #speedWords {
-            font-size: 30px; /* Adjust as needed */
+        @media screen and (min-width: 601px) and (max-width: 900px) {
+            #speedWords {
+                font-size: 30px; /* Adjust as needed */
+            }
         }
-    }
+
+
+        .note {
+            font-family:'Courier New', Courier, monospace; /* Choose your preferred font */
+            font-size: 50px; /* Adjust the font size as needed */
+            font-weight: bold; /* Make the text bold */
+            color: white; /* White fill for the text */
+            text-shadow:
+                -1px -1px 0 #000,  
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000; /* Black outline effect */
+        }
+
 
         
     </style>
@@ -89,25 +100,30 @@
     
     
     
-    <nav style="background-color: #399cff; text-align: center;"> <p style="font-size: xx-large; color: white;">Speedy</p></nav>
+    <nav style="text-align: center;">
+        <p class="note">SpeedyText</p>
+    </nav>
     
     <div style="margin-right: 100px; margin-left: 100px; text-align: center; ">
         <div class="container" style="display: flex; flex-direction: column; align-items: center;">
     
             <div id="textContainer" style="margin-top: 50px; min-width: 400px;">
-                <h2 id="speedWords" class="text-center" style="margin-top: 60px; margin-bottom: 60px; margin-right: 20px; margin-left: 20px; white-space: nowrap; text-size-adjust: auto;">Speed read text will display here</h2>
+                <h2 id="speedWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; text-size-adjust: auto;">Speed read text will display here</h2>
+            
+                <div style="display: inline-block; text-align: center;">
+                    <p id="placeValue" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px;">0</p>
+                    <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled style="display: inline-block; vertical-align: middle; margin: 0 15px;">
+                    <p id="placeDestination" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px;">0</p>
+                </div>
+            
             </div>
     
-            <div class="mt-4" style="text-align: center; display: flex; align-items: center; justify-content: center;">
-                <p><span style="margin-right: 15px;" id="placeValue">0</span></p>
-                <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled>
-                <p><span style="margin-left: 15px;" id="placeDestination">0</span></p>
-            </div>
+            
     
-            <div class="controls text-center" style="margin-top: 20px; display: flex; max-height: 50px;">
-                <button class="btn btn-primary mx-1" onclick="stepBackward()">&#x25C0; Backward</button>
-                <button class="btn btn-success mx-1" onclick="toggle()">PLAY</button>
-                <button class="btn btn-primary mx-1" onclick="stepForward()">Forward &#x25B6;</button>
+            <div class="controls text-center">
+                <button class="btn btn-primary mx-1" onclick="stepBackward()">|&#x25C0;</button>
+                <button class="btn btn-success mx-1" style="font-size: xx-;" onclick="toggle()">&#x25B6;</button>
+                <button class="btn btn-primary mx-1" onclick="stepForward()">&#x25B6;|</button>
             </div>
     
             <div class="bookmarks text-center" style="margin-top: 20px; display: flex;">
@@ -115,11 +131,10 @@
                 <button class="btn btn-info mx-1" onclick="setBookmark(selectedBook, wordIndex, 1)">Save Bookmark</button>
             </div>
     
-            <canvas id="coverImage" style="display: inline-block; margin-left: 10px;">
-                <div style="text-align: center; margin-top: 20px;">
-                    <input type="file" id="file-input" class="form-control-file my-3" style="display: inline-block;">
-                </div>    
-            </canvas>
+            <div style="text-align: center; margin-top: 20px;">
+                <input type="file" id="file-input" class="form-control-file my-3" style="display: inline-block;">
+            </div>   
+
            
             
     
@@ -141,20 +156,38 @@
 
     <script>
 
+
+
+        function adjustFontSize() {
+            const container = document.getElementById('textContainer');
+            const text = document.getElementById('speedWords');
+            
+            const containerWidth = container.offsetWidth;
+            const textWidth = text.scrollWidth; // Use scrollWidth to get full width including overflow
+            
+            // Get current font size
+            let fontSize = parseFloat(window.getComputedStyle(text, null).getPropertyValue('font-size'));
+            
+            // Calculate scale factor
+            const scale = containerWidth / textWidth;
+            
+            // Adjust font size based on scale
+            fontSize *= scale;
+            
+            // Limit font size to not exceed the container width
+            const maxFontSize = parseFloat(window.getComputedStyle(container, null).getPropertyValue('font-size'));
+            fontSize = Math.min(fontSize, maxFontSize);
+            
+            // Apply the new font size
+            text.style.fontSize = fontSize + 'px';
+        }
+
+        // Call adjustFontSize initially and on window resize
+        adjustFontSize();
+        window.addEventListener('resize', adjustFontSize);
+
         
-        var canvas = document.getElementById('coverImage');
-        var ctx = canvas.getContext('2d');
-
-        // Create an image element
-        var img = new Image();
-
-        // Set the image source (replace 'default-image.jpg' with your image path)
-        img.src = 'default.png';
-
-        // When the image has loaded, draw it onto the canvas
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        };
+        
 
 
 
@@ -344,7 +377,7 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 const typedArray = new Uint8Array(e.target.result);
-                displayCoverPage(typedArray);
+                //displayCoverPage(typedArray);
 
                 pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
                     
@@ -386,6 +419,7 @@
             wordIndex = 0;
         });
 
+        /*
         function displayCoverPage(pdfData) {
             const input = document.getElementById('file-input');
             selectedBook = input.files[0].name;
@@ -399,8 +433,8 @@
                     const viewport = page.getViewport({ scale: 1 });
                     const canvas = document.getElementById('coverImage');
                     const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
+                    canvas.height = 200;
+                    canvas.width = 200;
 
                     // Render PDF page into canvas context
                     page.render({
@@ -409,7 +443,8 @@
                     });
                 });
             });
-        }
+            
+        }*/
     </script>
 </body>
 </html>
