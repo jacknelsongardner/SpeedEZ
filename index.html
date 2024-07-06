@@ -117,11 +117,6 @@
     
     
     
-    
-    <nav style="text-align: center;">
-        <p class="note">SpeedyText</p>
-    </nav>
-    
     <div style="margin-right: 100px; margin-left: 100px; text-align: center; ">
         <div class="container" style="display: flex; flex-direction: column; align-items: center;">
     
@@ -130,7 +125,7 @@
             
                 <div style="display: inline-block; text-align: center;">
                     <p id="placeValue" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px;">0</p>
-                    <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled style="display: inline-block; vertical-align: middle; margin: 0 15px;">
+                    <input style="background-color: rgb(229, 229, 229);" type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled style="display: inline-block; vertical-align: middle; margin: 0 15px;">
                     <p id="placeDestination" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px;">0</p>
                 </div>
             
@@ -157,10 +152,17 @@
             
     
             <div style="text-align: center; margin-top: 20px;">
-                <p style="display: inline-block; margin-right: 10px;">Reading Speed</p>
+                <p style="display: inline-block; margin-right: 10px;">Reading Speed :</p>
                 <p style="display: inline-block; margin-right: 10px;"><span id="speedValue">500</span></p>
                 <input type="range" min="100" max="1000" value="500" class="slider" id="speedSlider">
             </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <p style="display: inline-block; margin-right: 10px;">Words At A Time :</p>
+                <p style="display: inline-block; margin-right: 10px;"><span id="wordValue">500</span></p>
+                <input type="range" min="1" max="10" value="500" class="slider" id="wordSlider">
+            </div>
+
     
         </div>
     </div>
@@ -225,33 +227,53 @@
 
         let wpm = 500;
 
-         // Set the text content of the <h2> element using JavaScript
-        titleElement.textContent = selectedBook;
-
 
 
 
             // For speed slider
-        var slider = document.getElementById("speedSlider");
+        var speedSlider = document.getElementById("speedSlider");
         
         // Get the value display element
-        var sliderValueDisplay = document.getElementById("speedValue");
+        var speedValueDisplay = document.getElementById("speedValue");
 
         // Initial display of the slider value
-        sliderValueDisplay.textContent = slider.value;
+        speedValueDisplay.textContent = speedSlider.value;
 
-        // Update the value display as the slider is moved
-        slider.addEventListener("input", function() {
-            sliderValueDisplay.textContent = slider.value;
 
-            // Update your JavaScript variable here
-            var modifiedVariable = slider.value;
-            console.log("Modified variable:", modifiedVariable);
-            
-            wpm = slider.value;
+        speedSlider.addEventListener("input", function() {
+            speedValueDisplay.textContent = speedSlider.value;
+            let modifiedSpeed = speedSlider.value;
+            wpm = modifiedSpeed;
             wordInterval = (60000 / wpm) * wordsAtATime;
-            // You can use 'modifiedVariable' for further operations
+            updateSlideDisplay();
         });
+
+        // For word slider
+        var wordSlider = document.getElementById("wordSlider");
+        var wordValueDisplay = document.getElementById("wordValue");
+
+        // Initial display of the slider value
+        wordValueDisplay.textContent = wordSlider.value;
+
+        wordSlider.addEventListener("input", function() {
+            wordValueDisplay.textContent = wordSlider.value;
+            let modifiedWords = wordSlider.value;
+            let num = parseInt(modifiedWords);
+            wordsAtATime = num;
+            wordInterval = (60000 / wpm) * wordsAtATime;
+            updateSlideDisplay();
+        });
+
+        function updateSlideDisplay() {
+            // Example: Update some display or perform other operations
+            let speedDisplay = document.getElementById("speedValue");
+            speedDisplay.textContent = wpm; // Update displayed value
+
+            let wordDisplay = document.getElementById("wordValue");
+            
+
+            wordDisplay.textContent = wordsAtATime; // Update displayed value
+        }
 
 
         function updatePlaceSlider()
@@ -267,6 +289,8 @@
             var output = document.getElementById("placeValue");
             output.innerHTML = wordIndex;
 
+            
+
             var end = document.getElementById("placeDestination");
             end.innerHTML = length - wordIndex;
         }
@@ -275,7 +299,7 @@
             if (!isPlaying) { 
                 play(); 
                 let button = document.getElementById("play");
-                button.textContent = "| |";
+                button.textContent = "||";
             }
             else {
                 stop();
