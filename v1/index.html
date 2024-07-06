@@ -17,7 +17,7 @@
             background-color: #6ab5ff;
 
             --bg-color: background-color: #7f5a83;
-            background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
+            background-image: linear-gradient(315deg, #292c46 0%, #274f6c 74%);
             --menu-color: #00000045;
             --lyrics-color: white;
             --font-family: "Montserrat",sans-serif;
@@ -68,7 +68,7 @@
         width: 1px;
         height: 15px;
         background: #ffffff;
-        border-color: white;
+        border-color: rgb(232, 232, 232);
         cursor: pointer;
         }
 
@@ -231,18 +231,20 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                            <h5 class="modal-title" id="settingsModalLabel">Upload</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                            
-
+                            <canvas id="coverImage"></canvas>
                     
                             <div style="text-align: center; margin-top: 20px;">
+                                
+                                <p> Drag and drop PDF or</p>
                                 <label for="file-input" class="btn btn-primary">
-                                    Drag and drop PDF file or <input type="file" id="file-input" accept=".pdf" style="display: none;" onchange="handleFileUpload(event)">
+                                    Click to Upload <input type="file" id="file-input" accept=".pdf" style="display: none;" onchange="handleFileUpload(event)">
                                 </label>
                             </div>
 
@@ -252,7 +254,7 @@
                         </div>
                         <div class="modal-footer">
                             
-                            <canvas id="coverImage"></canvas>
+                           
                             
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <!-- Additional buttons if needed -->
@@ -572,7 +574,8 @@
         function displayCoverPage(pdfData) {
             const input = document.getElementById('file-input');
             selectedBook = input.files[0].name;
-            let titleElement = document.getElementById("coverImage");
+            
+            let titleElement = document.getElementById("bookTitle");
             titleElement.textContent = selectedBook;
             
 
