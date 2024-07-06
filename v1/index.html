@@ -116,6 +116,21 @@
             padding: 0;
         }
 
+            /* Style for the footer */
+    footer {
+        position: fixed; /* Fixed positioning */
+        bottom: 0; /* Stick to the bottom */
+        width: 100%; /* Full width */
+        text-align: center; /* Center align text */
+        padding: 10px 0; /* Padding */
+    }
+
+    /* Style for the h1 and p tags inside the footer */
+    footer h1, footer p {
+        color: white; /* Text color */
+        font-size: 10px; /* Font size */
+        margin: 0; /* Remove default margins */
+    }
 
         
 
@@ -134,7 +149,7 @@
     <div style=" text-align: center; ">
         <div class="container" style="display: flex; flex-direction: column; align-items: center;">
     
-            <div id="textContainer" style="margin-top: 50px;  min-width: 400px; margin-bottom: 100px;">
+            <div id="textContainer" style="margin-top: 50px;  min-width: 400px; margin-bottom: 50px;">
                 
                 <h2 id="lastWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem); color: rgb(159, 159, 159);">Last piece of text goes here</h2>
 
@@ -273,7 +288,19 @@
     </div>
     
     
-    
+    <footer style="text-align: center; margin-top: 20px;">
+        <h1 style="color: white; font-size: 10px;">Speedy.io</h1>
+        <p style="color: white; font-size: 10px;">A Speed Reading tool created by Jack Gardner</p>
+        
+        <div style="grid-row: span; font-size: 10px;">
+            <a href="https://www.linkedin.com/in/jack-gardner-bab759223">Linkedin</a>
+            
+            <a href="https://github.com/jacknelsongardner">Github</a>
+        </div>
+        
+    </footer>
+
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
