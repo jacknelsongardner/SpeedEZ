@@ -6,12 +6,22 @@
     <title>PDF Text Extraction</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-   
+    <link rel="stylesheet" href="./style.css">
 
     <style>
+
+
+        
+
         body {
-            padding: 20px;
             background-color: #6ab5ff;
+
+            --bg-color: background-color: #7f5a83;
+            background-image: linear-gradient(315deg, #7f5a83 0%, #0d324d 74%);
+            --menu-color: #00000045;
+            --lyrics-color: white;
+            --font-family: "Montserrat",sans-serif;
+        
         }
         #pdf-content {
             height: 150px;
@@ -22,7 +32,7 @@
         }
         .slider {
             width: 50%;
-            height: 20px;
+            height: 1px;
             background-color: #46de4e;
         }
         .controls {
@@ -48,16 +58,17 @@
             appearance: none;
             width: 25px;
             height: 25px;
-            background: #8b8b8b;
+            background: #ffffff;
             cursor: pointer;
         }
 
         
 
         .slider::-moz-range-thumb {
-        width: 15px;
+        width: 1px;
         height: 15px;
-        background: #d2d2d2;
+        background: #ffffff;
+        border-color: white;
         cursor: pointer;
         }
 
@@ -104,6 +115,7 @@
             padding: 0;
         }
 
+        
 
         
     </style>
@@ -117,51 +129,103 @@
     
     
     
-    <div style="margin-right: 100px; margin-left: 100px; text-align: center; ">
+    <div style=" text-align: center; ">
         <div class="container" style="display: flex; flex-direction: column; align-items: center;">
     
-            <div id="textContainer" style="margin-top: 50px; min-width: 400px;">
+            <div id="textContainer" style="margin-top: 50px; min-width: 400px; margin-bottom: 280px;">
                 <h2 id="speedWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; text-size-adjust: auto;">Speed read text will display here</h2>
             
-                <div style="display: inline-block; text-align: center;">
-                    <p id="placeValue" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px;">0</p>
-                    <input style="background-color: rgb(229, 229, 229);" type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled style="display: inline-block; vertical-align: middle; margin: 0 15px;">
-                    <p id="placeDestination" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px;">0</p>
+                
+            
+            </div>
+    
+            
+    
+            
+
+
+            <div class="controls-container" style="width: 100vw; background-color: #0000006e;">
+                <div class="row" style="display: block; text-align: center; margin-top: 10px;">
+
                 </div>
-            
-            </div>
-    
-            
-    
-            <div class="controls text-center">
-                <button id="backstep" style="font-weight: bolder;" class="btn btn-primary mx-1" onclick="stepBackward()">|&#x25C0;</button>
-                <button id="play" style="font-weight: bolder;" class="btn btn-success mx-1" onclick="toggle()">&#x25B6;</button>
-                <button id="forwardstep" style="font-weight: bolder;" class="btn btn-primary mx-1" onclick="stepForward()">&#x25B6;|</button>
-            </div>
-    
-            <div class="bookmarks text-center" style="margin-top: 20px; display: flex;">
-                <button class="btn btn-info mx-1" onclick="getBookmark(selectedBook)">Load Bookmark</button>
-                <button class="btn btn-info mx-1" onclick="setBookmark(selectedBook, wordIndex, 1)">Save Bookmark</button>
-            </div>
-    
-            <div style="text-align: center; margin-top: 20px;">
-                <input type="file" id="file-input" class="form-control-file my-3" style="display: inline-block;">
-            </div>   
+                
+                <div class="row" style="display: block; text-align: center; margin-top: 10px;">
+                    
+                    <div style="display: inline-block; text-align: center; margin-top: 10px;">
+                        <p id="placeValue" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px; color: white;">0</p>
+                        <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled style="display: inline-block; vertical-align: middle; margin: 0 15px;">
+                        <p id="placeDestination" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px; color: white;">0</p>
+                    </div>
 
-           
-            
-    
-            <div style="text-align: center; margin-top: 20px;">
-                <p style="display: inline-block; margin-right: 10px;">Reading Speed :</p>
-                <p style="display: inline-block; margin-right: 10px;"><span id="speedValue">500</span></p>
-                <input type="range" min="100" max="1000" value="500" class="slider" id="speedSlider">
+                </div>
+                
+                <div class="controls row" style="margin-bottom: 20px; text-align: center;">
+                    
+                    
+                    <button id="backstep" class="btn btn-primary mx-1" style="background-color: #00000000; border-width: 1px;" onclick="stepBackward()">|&#x25C0;</button>
+                    <button id="play" class="btn btn-success mx-1" style="background-color: #00000000; border-width: 4px;" onclick="toggle()">&#x25B6;</button>
+                    <button id="forwardstep" class="btn btn-primary mx-1" style="background-color: #00000000; border-width: 1px;" onclick="stepForward()">&#x25B6;|</button>
+                </div>
+
+                <div class="row" style="margin-bottom: 20px; text-align: center; display: flex; justify-content: center; align-items: center; height: 100%;">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#settingsModal" style="margin-bottom: 20px;">
+                        Settings
+                    </button>
+                    
+                </div>
+
+                
             </div>
 
-            <div style="text-align: center; margin-top: 20px;">
-                <p style="display: inline-block; margin-right: 10px;">Words At A Time :</p>
-                <p style="display: inline-block; margin-right: 10px;"><span id="wordValue">500</span></p>
-                <input type="range" min="1" max="10" value="500" class="slider" id="wordSlider">
+            
+        
+            <!-- Modal -->
+            <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                           
+
+    
+                            <div class="bookmarks text-center" style="margin-top: 20px; display: flex;">
+                                <button class="btn btn-info mx-1" onclick="getBookmark(selectedBook)">Load Bookmark</button>
+                                <button class="btn btn-info mx-1" onclick="setBookmark(selectedBook, wordIndex, 1)">Save Bookmark</button>
+                            </div>
+                    
+                            <div style="text-align: center; margin-top: 20px;">
+                                <input type="file" id="file-input" class="form-control-file my-3" style="display: inline-block;">
+                            </div>   
+
+                        
+                            
+                    
+                            <div style="text-align: center; margin-top: 20px;">
+                                <p style="display: inline-block; margin-right: 10px;">Reading Speed :</p>
+                                <p style="display: inline-block; margin-right: 10px;"><span id="speedValue">500</span></p>
+                                <input type="range" min="100" max="1000" value="500" class="slider" id="speedSlider">
+                            </div>
+
+                            <div style="text-align: center; margin-top: 20px;">
+                                <p style="display: inline-block; margin-right: 10px;">Words At A Time :</p>
+                                <p style="display: inline-block; margin-right: 10px;"><span id="wordValue">500</span></p>
+                                <input type="range" min="1" max="10" value="500" class="slider" id="wordSlider">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!-- Additional buttons if needed -->
+                        </div>
+                    </div>
+                </div>
             </div>
+            
 
     
         </div>
