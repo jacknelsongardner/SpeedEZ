@@ -51,7 +51,18 @@
             margin-top: 30px;
             margin-bottom: 30px;
             background-color: white;
+
+            width: 100%;
+            max-width: 600px; /* Optional: max width to prevent it from getting too wide */
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
         }
+
+        
+
 
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
@@ -72,19 +83,6 @@
         cursor: pointer;
         }
 
-        @media screen and (max-width: 600px) {
-        
-            
-            #speedWords {
-            font-size: 30px; /* Adjust as needed */
-            }
-        }
-
-        @media screen and (min-width: 601px) and (max-width: 900px) {
-            #speedWords {
-                font-size: 50px; /* Adjust as needed */
-            }
-        }
 
 
         .note {
@@ -134,11 +132,11 @@
     <div style=" text-align: center; ">
         <div class="container" style="display: flex; flex-direction: column; align-items: center;">
     
-            <div id="textContainer" style="margin-top: 100px; min-width: 400px; margin-bottom: 100px;">
+            <div id="textContainer" style="margin-top: 50px;  min-width: 400px; margin-bottom: 100px;">
                 
                 <h2 id="lastWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem); color: rgb(159, 159, 159);">Last piece of text goes here</h2>
 
-                <h2 id="speedWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem);">Speed read text will display here</h2>
+                <h2 id="speedWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem);  color: rgb(0, 0, 0);">Curent piece of text goes here</h2>
                 
                 <h2 id="nextWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem);  color: rgb(159, 159, 159);">Next piece of text goes here</h2>
             </div>
@@ -285,7 +283,7 @@
 
         function adjustFontSize() {
             const container = document.getElementById('textContainer');
-            const text = document.getElementById('speedWords');
+            const text = document.getElementById('lastWords');
             
             const containerWidth = container.offsetWidth;
             const textWidth = text.scrollWidth; // Use scrollWidth to get full width including overflow
