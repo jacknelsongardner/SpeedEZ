@@ -240,7 +240,7 @@
                         </div>
                         <div class="modal-body">
                            
-                            <canvas id="coverImage"></canvas>
+                            <img id="coverImage" src="default.png" width="200px" height="200px"></img>
                     
                             <div style="text-align: center; margin-top: 20px;">
                                 
@@ -638,15 +638,29 @@
                 // Fetch the first page
                 pdf.getPage(1).then(function(page) {
                     const viewport = page.getViewport({ scale: 1 });
-                    const canvas = document.getElementById('coverImage');
+                    
+                    // Create a canvas element
+                    const canvas = document.createElement('canvas');
                     const context = canvas.getContext('2d');
-                    canvas.height = 200;
-                    canvas.width = 200;
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
 
-                    // Render PDF page into canvas context
-                    page.render({
+                    // Render the PDF page into the canvas context
+                    const renderContext = {
                         canvasContext: context,
                         viewport: viewport
+                    };
+
+                    page.render(renderContext).promise.then(function() {
+                        // Convert the canvas to an image
+                        const image = document.getElementById('coverImage');
+                        
+                        // Set the dimensions for the image
+                        image.height = 200;
+                        image.width = 200;
+                        
+                        // Set the image source to the canvas data URL
+                        image.src = canvas.toDataURL();
                     });
                 });
             });
