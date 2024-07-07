@@ -6,7 +6,6 @@
     <title>PDF Text Extraction</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
 
     <style>
 
@@ -149,7 +148,7 @@
     <div style=" text-align: center; ">
         <div class="container" style="display: flex; flex-direction: column; align-items: center;">
     
-            <div id="textContainer" style="margin-top: 35px;  min-width: 400px; margin-bottom: 50px;">
+            <div id="textContainer" style="margin-top: 50px;  min-width: 400px; margin-bottom: 50px;">
                 
                 <h2 id="lastWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem); color: rgb(159, 159, 159);">Last piece of text goes here</h2>
 
@@ -263,7 +262,7 @@
                                 
                                 <!--<p> Drag and drop PDF or</p>-->
                                 <label for="file-input" class="btn btn-success">
-                                    Click to Upload <input type="file" id="file-input" accept=".pdf" style="display: none;" onchange="handleFileUpload(event)">
+                                    Click to Upload <input type="file" id="file-input" accept=".pdf" style="display: none;">
                                 </label>
                             </div>
 
@@ -289,7 +288,7 @@
     
     
     <footer style="text-align: center; margin-top: 20px;">
-        <h1 style="color: white; font-size: 10px;">SpeedReedie.github.io</h1>
+        <h1 style="color: white; font-size: 10px;">Speedy.io</h1>
         <p style="color: white; font-size: 10px;">A Speed Reading tool created by Jack Gardner</p>
         
         <div style="grid-row: span; font-size: 10px;">
@@ -307,10 +306,6 @@
 
 
     <script>
-
-
-
-
 
         // Function to be called when a key is pressed
         function keyPressed(event) {
@@ -622,6 +617,8 @@
         }
 
         document.getElementById('file-input').addEventListener('change', function(event) {
+            console.log("recieved file");
+            
             const file = event.target.files[0];
             if (file.type !== 'application/pdf') {
                 alert('Please select a PDF file.');
@@ -631,6 +628,8 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 const typedArray = new Uint8Array(e.target.result);
+                console.log(typedArray);
+                
                 displayCoverPage(typedArray);
 
                 pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
@@ -659,6 +658,9 @@
                             textContent = texts.join(' ');
                             let strArray = textContent.split(/\s+/);
                             sessionStorage.setItem(locationName, JSON.stringify(strArray));
+                            
+                            console.log(locationName);
+                            console.log(strArray);
 
                             // Retrieving the array
                             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
@@ -668,11 +670,28 @@
                 });
 
                 
+                
             };
 
             reader.readAsArrayBuffer(file);
-            
+
+            // Set a timer to execute a function after a specified delay
+            const timer = setTimeout(function() {
+                console.log("Timer finished");
+            }, 5000); // 5000 milliseconds = 5 seconds
+
+            // Function to stop the timer suddenly
+            function stopTimer() {
+                clearTimeout(timer);
+                console.log("Timer stopped suddenly");
+            }
+
+            // Call stopTimer at some point before the timer finishes
+            setTimeout(stopTimer, 500); // This will stop the timer after .5 seconds
+
             wordIndex = 0;
+
+            loadWords(1,0);
         });
 
         
@@ -684,8 +703,7 @@
             let titleElement = document.getElementById("bookTitle");
             titleElement.textContent = selectedBook;
             
-            loadWords(1,0);
-                
+            
 
             // Load PDF document
             pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
