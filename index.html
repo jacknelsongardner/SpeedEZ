@@ -274,7 +274,7 @@
                             
                            
                             
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="loadWords(1,0)">Close</button>
                             <!-- Additional buttons if needed -->
                         </div>
                     </div>
@@ -675,23 +675,9 @@
 
             reader.readAsArrayBuffer(file);
 
-            // Set a timer to execute a function after a specified delay
-            const timer = setTimeout(function() {
-                console.log("Timer finished");
-            }, 1000); // 5000 milliseconds = 5 seconds
-
-            // Function to stop the timer suddenly
-            function stopTimer() {
-                clearTimeout(timer);
-                console.log("Timer stopped suddenly");
-            }
-
-            // Call stopTimer at some point before the timer finishes
-            setTimeout(stopTimer, 500); // This will stop the timer after .5 seconds
-
             wordIndex = 0;
 
-            loadWords(1,0);
+            
         });
 
         
