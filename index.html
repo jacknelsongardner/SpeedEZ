@@ -306,6 +306,7 @@
             console.log(event.key);
             // Check if the 'Enter' key is pressed
             if (event.key === ' ') {
+                event.preventDefault();
                 toggle();
             }
             else if (event.key === 'ArrowLeft')
