@@ -11,6 +11,7 @@
 
 
         
+        html, body {margin: 0; height: 100%; overflow: hidden}  
         
         body {
             background-color: #6ab5ff;
@@ -304,14 +305,14 @@
             
             console.log(event.key);
             // Check if the 'Enter' key is pressed
-            if (event.key === 'Space') {
+            if (event.key === ' ') {
                 toggle();
             }
-            else if (event.key === 'Left')
+            else if (event.key === 'ArrowLeft')
             {
                 stepBackward();
             }
-            else if (event.key === 'Right')
+            else if (event.key === 'ArrowRight')
             {
                 stepForward();
             }
@@ -492,6 +493,7 @@
         }
 
         function play() {
+            
             if (!isPlaying) {
                 
                 isPlaying = true;
