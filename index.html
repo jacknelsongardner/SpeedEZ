@@ -425,7 +425,7 @@
         function updatePlaceSlider()
         {
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-            let length = storedArray.length;
+            let length = ((storedArray.length - wordsAtATime) - 1);
 
             let placeSlideVal = (wordIndex / length) * 100;
             
@@ -494,18 +494,26 @@
         }
 
         function play() {
+            let storedArray = JSON.parse(sessionStorage.getItem(locationName));
+            let length  = ((storedArray.length - wordsAtATime) - 1);
             
-            if (!isPlaying) {
+            if (!isPlaying && wordIndex < length) {
                 
+                
+
                 isPlaying = true;
                 blinkInterval = setInterval(() => {
                     console.log("played");
+                    console.log("word index is :" + wordIndex);
+                    console.log("max : " + length);
                     
                     let storedArray = JSON.parse(sessionStorage.getItem(locationName));
                     console.log(storedArray[wordIndex]);
                     
                     wordIndex += wordsAtATime;
+                    
                     loadWords(1, 0);
+
                     
                 }, wordInterval);
             }
@@ -520,21 +528,33 @@
 
         function stepForward() {
             stop();
+
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-            console.log(storedArray[wordIndex]);
-            
-            wordIndex += wordsAtATime;
-            loadWords(1, 0);
+
+            if (wordIndex < storedArray.length) {
+                
+                console.log(storedArray[wordIndex]);
+                
+                wordIndex += wordsAtATime;
+                loadWords(1, 0);
+
+            }
 
         }
 
         function stepBackward() {
             stop();
             let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-            console.log(storedArray[wordIndex]);
             
-            wordIndex -= wordsAtATime;
-            loadWords(1, 0);
+            if (wordIndex > 0)
+            {
+                console.log(storedArray[wordIndex]);
+            
+                wordIndex -= wordsAtATime;
+                loadWords(1, 0);
+
+            }
+            
 
         }
 
@@ -548,10 +568,11 @@
 
             let newWords = "";
 
-        
+            let length = ((storedArray.length - wordsAtATime) - 1);
 
+            // Setting current words
             for (let i = 0; i < wordsAtATime; i++) {
-                if (wordIndex + (i * jump) + (i * direction) < storedArray.length && wordIndex + (i * direction) >= 0) {
+                if (wordIndex + (i * jump) + (i * direction) < length && wordIndex + (i * direction) >= 0) {
                     newWords += storedArray[wordIndex + (i * jump) + (direction * i)] + " ";
                 }
             }
@@ -569,7 +590,7 @@
             // Setting last words
             if (wordIndex - wordsAtATime >= 0) {
                 for (let i = 0; i < wordsAtATime; i++) {
-                    if (wordIndex + (i * jump) + (i * direction) < storedArray.length && wordIndex + (i * direction) >= 0) {
+                    if (wordIndex + (i * jump) + (i * direction) < length && wordIndex + (i * direction) >= 0) {
                         newWords += storedArray[(wordIndex - wordsAtATime) + (i * jump) + (direction * i)] + " ";
                     }
                 }
@@ -587,12 +608,13 @@
             newWords = "";
 
             // Setting last words
-            if (wordIndex + wordsAtATime < storedArray.length) {
+            if (wordIndex + wordsAtATime < (storedArray.length - wordsAtATime) - 1) {
                 for (let i = 0; i < wordsAtATime; i++) {
-                    if (wordIndex + (i * jump) + (i * direction) < storedArray.length && wordIndex + (i * direction) >= 0) {
+                    if (wordIndex + (i * jump) + (i * direction) < length && wordIndex + (i * direction) >= 0) {
                         newWords += storedArray[(wordIndex + wordsAtATime) + (i * jump) + (direction * i)] + " ";
                     }
                 }
+                console.log(newWords);
             }
             
             // Replace the text content of the <h2> element
@@ -604,6 +626,16 @@
             else { next.textContent = "..."}
 
 
+
+            // Update index to make sense 
+            if (wordIndex < 0)
+            {
+                wordIndex = 0;
+            }
+            else if (wordIndex >= storedArray.length)
+            {
+                wordIndex = storedArray.length;
+            }
 
             updatePlaceSlider();
 
