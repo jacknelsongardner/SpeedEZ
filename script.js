@@ -134,50 +134,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         let strArray = textContent;
                         sessionStorage.setItem(locationName, JSON.stringify(strArray));
                         
-
-                        // Retrieving the array
-                        loadedBook = JSON.parse(sessionStorage.getItem(locationName));
-                        console.log(loadedBook);
-
-                        var charsPerLine = wordsAtATime * avgCharsPerWord;
-                        console.log(charsPerLine);
-
-                        var tempBook = loadedBook.split(/\s+/);
-                        console.log(tempBook);
-                        sortedBook = [];
-
-                        var currentString = "";
-
-                        tempBook.forEach(function(word) {
-                        
-                            function isNumeric(str) {
-                                return !isNaN(str) && str.trim() !== '';
-                            }
-
-                            if (currentString.length + word.length < charsPerLine)
-                            {
-                                if (word.length == 1 && (word.toLowerCase() != 'a' && word.toLowerCase() != 'i') && !isNumeric(word)) 
-                                {
-                                    currentString = currentString + word;
-                                }
-                                else { currentString = currentString + " " + word; }
-                                
-                            }
-                            else 
-                            {
-                                sortedBook.push(currentString);
-                                currentString = word + " ";
-                            }
-
-                        });
-
-                        if (currentString != "")
-                        {
-                            sortedBook.push(currentString);
-                            
-                        }
-
-                        console.log(sortedBook);
+                        changeWordsAtATime();
 
 
                     });
@@ -200,7 +157,45 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 
+function changeWordsAtATime()
+{
+    // Retrieving the array
+    loadedBook = JSON.parse(sessionStorage.getItem(locationName));
+    console.log(loadedBook);
 
+    var charsPerLine = wordsAtATime * avgCharsPerWord;
+    console.log(charsPerLine);
+
+    var tempBook = loadedBook.split(/\s+/);
+    console.log(tempBook);
+    sortedBook = [];
+
+    var currentString = "";
+
+    // handling each word in the book
+    tempBook.forEach(function(word) {
+    
+
+        if (currentString.length + word.length < charsPerLine)
+        {
+            currentString = currentString + " " + word;
+            
+        }
+        else 
+        {
+            sortedBook.push(currentString);
+            currentString = word + " ";
+        }
+
+    });
+
+    // handling last string
+    if (currentString != "")
+    {
+        sortedBook.push(currentString);
+        
+    }
+}
 
 function displayCoverPage(pdfData) {
         
