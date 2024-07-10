@@ -347,7 +347,7 @@ function getBookmark(cookieName) {
 }
 
 function play() {
-    if (!isPlaying && wordIndex < length) {
+    if (!isPlaying && wordIndex < sortedBook.length) {
         
         
 
@@ -359,6 +359,11 @@ function play() {
             wordIndex++;
 
             loadWords(1, 0);
+
+            if (wordIndex < sortedBook.length - 1)
+            {
+                stop();
+            }
 
             
         }, wordInterval);
@@ -375,10 +380,10 @@ function stop() {
 function stepForward() {
     stop();
 
-    if (wordIndex < storedArray.length) {
+    if (wordIndex < sortedBook.length) {
         
         wordIndex++;
-        loadWords(1, 0);
+        loadWords();
 
     }
 
@@ -397,9 +402,8 @@ function stepBackward() {
 
 }
 
-function loadWords(direction, jump) {
-    let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-
+function loadWords() {
+    
     // Select the <h2> element by its ID
     let last = document.getElementById('lastWords');
     let current = document.getElementById('speedWords');
@@ -407,36 +411,33 @@ function loadWords(direction, jump) {
 
     let newWords = "";
 
-    let length = ((storedArray.length - wordsAtATime) - 1);
 
     // Setting current words
-    for (let i = 0; i < wordsAtATime; i++) {
-        if (wordIndex + (i * jump) + (i * direction) < length && wordIndex + (i * direction) >= 0) {
-            newWords += storedArray[wordIndex + (i * jump) + (direction * i)] + " ";
-        }
-    }
-
-    // Replace the text content of the <h2> element
-    console.log(newWords);
-    if (newWords != null && newWords != "") 
-    {
-        current.textContent = newWords.trim();
-    }
-    else { last.textContent = "..."}
-
-    newWords = "";
-
-    // Setting last words
-    if (wordIndex - wordsAtATime >= 0) {
-        for (let i = 0; i < wordsAtATime; i++) {
-            if (wordIndex + (i * jump) + (i * direction) < length && wordIndex + (i * direction) >= 0) {
-                newWords += storedArray[(wordIndex - wordsAtATime) + (i * jump) + (direction * i)] + " ";
-            }
-        }
+    if (wordIndex < sortedBook.length) {
+        newWords = sortedBook[wordIndex]
     }
     
     // Replace the text content of the <h2> element
     console.log(newWords);
+
+    // If newwords is blank
+    if (newWords != null && newWords != "") 
+    {
+        current.textContent = newWords.trim();
+    }
+    else { current.textContent = "..."}
+
+
+    newWords = "";
+
+    // Setting last words
+    if (wordIndex - 1 < sortedBook.length && wordIndex - 1 >= 0) {
+        newWords = sortedBook[wordIndex];
+    }
+      
+    // Replace the text content of the <h2> element
+    console.log(newWords);
+
     if (newWords != null && newWords != "") 
     {
         last.textContent = newWords.trim();
@@ -446,18 +447,15 @@ function loadWords(direction, jump) {
 
     newWords = "";
 
-    // Setting last words
-    if (wordIndex + wordsAtATime < (storedArray.length - wordsAtATime) - 1) {
-        for (let i = 0; i < wordsAtATime; i++) {
-            if (wordIndex + (i * jump) + (i * direction) < length && wordIndex + (i * direction) >= 0) {
-                newWords += storedArray[(wordIndex + wordsAtATime) + (i * jump) + (direction * i)] + " ";
-            }
-        }
-        console.log(newWords);
+    // Setting next words
+
+    if (wordIndex + 1 < sortedBook.length && wordIndex + 1 >= 0) {
+        newWords = sortedBook[wordIndex + 1]
     }
-    
+       
     // Replace the text content of the <h2> element
     console.log(newWords);
+
     if (newWords != null && newWords != "") 
     {
         next.textContent = newWords.trim();
@@ -471,9 +469,9 @@ function loadWords(direction, jump) {
     {
         wordIndex = 0;
     }
-    else if (wordIndex >= storedArray.length)
+    else if (wordIndex >= sortedBook.length)
     {
-        wordIndex = storedArray.length;
+        wordIndex = storedArray.length - 1;
     }
 
     updatePlaceSlider();
