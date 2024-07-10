@@ -150,9 +150,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                         tempBook.forEach(function(word) {
                         
+                            function isNumeric(str) {
+                                return !isNaN(str) && str.trim() !== '';
+                            }
+
                             if (currentString.length + word.length < charsPerLine)
                             {
-                                currentString = currentString + word + " ";
+                                if (word.length == 1 && (word.toLowerCase() != 'a' && word.toLowerCase() != 'i') && !isNumeric(word)) 
+                                {
+                                    currentString = currentString + word;
+                                }
+                                else { currentString = currentString + " " + word; }
+                                
                             }
                             else 
                             {
