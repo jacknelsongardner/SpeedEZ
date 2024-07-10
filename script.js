@@ -347,9 +347,6 @@ function getBookmark(cookieName) {
 }
 
 function play() {
-    let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-    let length  = ((storedArray.length - wordsAtATime) - 1);
-    
     if (!isPlaying && wordIndex < length) {
         
         
@@ -358,13 +355,9 @@ function play() {
         blinkInterval = setInterval(() => {
             console.log("played");
             console.log("word index is :" + wordIndex);
-            console.log("max : " + length);
             
-            let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-            console.log(storedArray[wordIndex]);
-            
-            wordIndex += wordsAtATime;
-            
+            wordIndex++;
+
             loadWords(1, 0);
 
             
@@ -382,13 +375,9 @@ function stop() {
 function stepForward() {
     stop();
 
-    let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-
     if (wordIndex < storedArray.length) {
         
-        console.log(storedArray[wordIndex]);
-        
-        wordIndex += wordsAtATime;
+        wordIndex++;
         loadWords(1, 0);
 
     }
@@ -397,13 +386,10 @@ function stepForward() {
 
 function stepBackward() {
     stop();
-    let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-    
+
     if (wordIndex > 0)
     {
-        console.log(storedArray[wordIndex]);
-    
-        wordIndex -= wordsAtATime;
+        wordIndex--;
         loadWords(1, 0);
 
     }
