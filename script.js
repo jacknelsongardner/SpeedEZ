@@ -277,10 +277,12 @@ function updateSlideDisplay() {
 
 function updatePlaceSlider()
 {
-    let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-    let length = ((storedArray.length - wordsAtATime) - 1);
+    
 
-    let placeSlideVal = (wordIndex / length) * 100;
+    let wordsPerLine = charsPerLine / avgCharsPerWord;
+    let length = sortedBook.length * wordsPerLine;
+    let place = wordIndex * wordsPerLine;
+    let placeSlideVal = (place / length) * 100;
     
     var slider = document.getElementById("placeSlider");
     slider.value = placeSlideVal;
