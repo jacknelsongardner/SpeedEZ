@@ -21,6 +21,13 @@ var speedValueDisplay;
 
 var wordSlider;
 var wordValueDisplay;
+var avgCharsPerWord = 6;
+
+
+
+
+var loadedBook;
+var sortedBook;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     console.log("DOM fully loaded and parsed");
@@ -119,15 +126,51 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                     Promise.all(textPromises).then(texts => {
                         textContent = texts.join(' ');
-                        let strArray = textContent.split(/\s+/);
+                        
+                        console.log(texts);
+                        console.log(textContent);
+
+
+                        let strArray = textContent;
                         sessionStorage.setItem(locationName, JSON.stringify(strArray));
                         
-                        console.log(locationName);
-                        console.log(strArray);
 
                         // Retrieving the array
-                        let storedArray = JSON.parse(sessionStorage.getItem(locationName));
-                        console.log(storedArray[0]);
+                        loadedBook = JSON.parse(sessionStorage.getItem(locationName));
+                        console.log(loadedBook);
+
+                        var charsPerLine = wordsAtATime * avgCharsPerWord;
+                        console.log(charsPerLine);
+
+                        var tempBook = loadedBook.split(/\s+/);
+                        console.log(tempBook);
+                        sortedBook = [];
+
+                        var currentString = "";
+
+                        tempBook.forEach(function(word) {
+                        
+                            if (currentString.length + word.length < charsPerLine)
+                            {
+                                currentString = currentString + word + " ";
+                            }
+                            else 
+                            {
+                                sortedBook.push(currentString);
+                                currentString = word + " ";
+                            }
+
+                        });
+
+                        if (currentString != "")
+                        {
+                            sortedBook.push(currentString);
+                            
+                        }
+
+                        console.log(sortedBook);
+
+
                     });
                 });
             });
