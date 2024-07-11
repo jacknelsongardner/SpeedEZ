@@ -27,7 +27,7 @@ var avgCharsPerWord = 6;
 
 
 var loadedBook;
-var sortedBook;
+var sortedBook = [];
 
 document.addEventListener('DOMContentLoaded', (event) => {
     console.log("DOM fully loaded and parsed");
@@ -278,7 +278,7 @@ function updateSlideDisplay() {
 function updatePlaceSlider()
 {
     
-
+    let charsPerLine = wordsAtATime * avgCharsPerWord;
     let wordsPerLine = charsPerLine / avgCharsPerWord;
     let length = sortedBook.length * wordsPerLine;
     let place = wordIndex * wordsPerLine;
@@ -434,7 +434,7 @@ function loadWords() {
 
     // Setting last words
     if (wordIndex - 1 < sortedBook.length && wordIndex - 1 >= 0) {
-        newWords = sortedBook[wordIndex];
+        newWords = sortedBook[wordIndex - 1];
     }
       
     // Replace the text content of the <h2> element
