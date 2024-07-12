@@ -288,21 +288,24 @@ function updatePlaceSlider()
     slider.value = placeSlideVal;
 
     var output = document.getElementById("placeValue");
-    output.innerHTML = wordIndex;
+    output.innerHTML = wordIndex * avgCharsPerWord;
 
     
 
     var end = document.getElementById("placeDestination");
-    end.innerHTML = length - wordIndex;
+    end.innerHTML = length - (wordIndex * avgCharsPerWord);
 }
 
-function toggle() {
-    if (!isPlaying) { 
+function toggle() 
+{
+    if (!isPlaying) 
+    { 
         play(); 
         let button = document.getElementById("play");
         button.textContent = "||";
     }
-    else {
+    else 
+    {
         stop();
         let button = document.getElementById("play");
         button.textContent = "\u25B6";
@@ -344,7 +347,7 @@ function getBookmark(cookieName) {
     }
 
     console.log("word index: " + wordIndex);
-    loadWords(1,0);
+    loadWords();
     
 }
 
@@ -354,15 +357,16 @@ function play() {
         
 
         isPlaying = true;
+        
         blinkInterval = setInterval(() => {
             console.log("played");
             console.log("word index is :" + wordIndex);
             
             wordIndex++;
 
-            loadWords(1, 0);
+            loadWords();
 
-            if (wordIndex < sortedBook.length - 1)
+            if (wordIndex >= sortedBook.length - 1)
             {
                 stop();
             }
@@ -376,6 +380,8 @@ function stop() {
     if (isPlaying) {
         clearInterval(blinkInterval);
         isPlaying = false;
+
+        console.log("stopped");
     }
 }
 
@@ -397,7 +403,7 @@ function stepBackward() {
     if (wordIndex > 0)
     {
         wordIndex--;
-        loadWords(1, 0);
+        loadWords();
 
     }
     
