@@ -388,8 +388,11 @@ function stop() {
 function stepForward() {
     stop();
 
-    if (wordIndex < sortedBook.length) {
+    if (wordIndex < sortedBook.length - 1) {
         
+        console.log(wordIndex);
+        console.log(sortedBook.length);
+
         wordIndex++;
         loadWords();
 
@@ -479,7 +482,7 @@ function loadWords() {
     }
     else if (wordIndex >= sortedBook.length)
     {
-        wordIndex = storedArray.length - 1;
+        wordIndex = sortedBook.length - 1;
     }
 
     updatePlaceSlider();
