@@ -278,8 +278,8 @@ function updateSlideDisplay() {
 function updatePlaceSlider()
 {
     
-    let charsPerLine = wordsAtATime * avgCharsPerWord;
-    let wordsPerLine = charsPerLine / avgCharsPerWord;
+    let wordsPerLine = wordsAtATime;
+    
     let length = sortedBook.length * wordsPerLine;
     let place = wordIndex * wordsPerLine;
     let placeSlideVal = (place / length) * 100;
@@ -288,12 +288,12 @@ function updatePlaceSlider()
     slider.value = placeSlideVal;
 
     var output = document.getElementById("placeValue");
-    output.innerHTML = wordIndex * avgCharsPerWord;
+    output.innerHTML = wordIndex;// * avgCharsPerWord;
 
     
 
     var end = document.getElementById("placeDestination");
-    end.innerHTML = length - (wordIndex * avgCharsPerWord);
+    end.innerHTML = sortedBook.length - 1;//length - (wordIndex * wordsPerLine);
 }
 
 function toggle() 
