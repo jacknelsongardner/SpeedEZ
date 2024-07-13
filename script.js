@@ -280,7 +280,7 @@ function updatePlaceSlider()
     
     let wordsPerLine = wordsAtATime;
     
-    let length = sortedBook.length * wordsPerLine;
+    let length = (sortedBook.length - 1) * wordsPerLine;
     let place = wordIndex * wordsPerLine;
     let placeSlideVal = (place / length) * 100;
     
@@ -288,12 +288,12 @@ function updatePlaceSlider()
     slider.value = placeSlideVal;
 
     var output = document.getElementById("placeValue");
-    output.innerHTML = wordIndex;// * avgCharsPerWord;
+    output.innerHTML = wordIndex * wordsAtATime;// * avgCharsPerWord;
 
     
 
     var end = document.getElementById("placeDestination");
-    end.innerHTML = sortedBook.length - 1;//length - (wordIndex * wordsPerLine);
+    end.innerHTML = (sortedBook.length - 1) * wordsAtATime;//length - (wordIndex * wordsPerLine);
 }
 
 function toggle() 
@@ -362,15 +362,20 @@ function play() {
             console.log("played");
             console.log("word index is :" + wordIndex);
             
-            wordIndex++;
-
-            loadWords();
+            
 
             if (wordIndex >= sortedBook.length - 1)
             {
-                stop();
+                toggle();
+            }
+            else {
+                wordIndex++;
+
+                loadWords();
             }
 
+
+            
             
         }, wordInterval);
     }
