@@ -104,12 +104,12 @@
                             <div style="text-align: center; margin-top: 20px;">
                                 <p style="display: inline-block; margin-right: 10px;">Words At A Time :</p>
                                 <p style="display: inline-block; margin-right: 10px;"><span id="wordValue">500</span></p>
-                                <input type="range" min="1" max="8" value="500" class="slider" id="wordSlider">
+                                <input type="range" min="2" max="8" value="500" class="slider" id="wordSlider">
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="updateWordsAtATime()">Close</button>
                             <!-- Additional buttons if needed -->
                         </div>
                     </div>
@@ -160,10 +160,25 @@
         </div>
     </div>
     
+
+    
     
     
 
     <script src="script.js"></script>
+    
+    <script>
+        window.onload = function() {
+            // Your code here
+            var tutorialString = "Welcome to SpeedEZ, the ultimate app for enhancing your reading efficiency with the power of speed reading. Unlike other apps, SpeedEZ allows you to stepthrough a body of text, save book marks for documents you upload, and (coming soon) submit your what you read to teh GPT Api and ask customized questions to tour comprehension levels. Whether you're skimming through articles, diving into novels, or studying complex materials, SpeedEZ has you covered. "
+            sessionStorage.setItem(locationName, JSON.stringify(tutorialString));
+            updateWordsAtATime();
+            loadWords();
+
+        };
+    </script>
+    
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

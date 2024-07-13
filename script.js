@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         let strArray = textContent;
                         sessionStorage.setItem(locationName, JSON.stringify(strArray));
                         
-                        changeWordsAtATime();
+                        updateWordsAtATime();
 
 
                     });
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 
-function changeWordsAtATime()
+function updateWordsAtATime()
 {
     // Retrieving the array
     loadedBook = JSON.parse(sessionStorage.getItem(locationName));
@@ -195,6 +195,8 @@ function changeWordsAtATime()
         sortedBook.push(currentString);
         
     }
+
+    loadWords();    
 }
 
 function displayCoverPage(pdfData) {
