@@ -152,8 +152,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
     });
 
-
-
 });
 
 
@@ -290,12 +288,12 @@ function updatePlaceSlider()
     slider.value = placeSlideVal;
 
     var output = document.getElementById("placeValue");
-    output.innerHTML = wordIndex * wordsAtATime;// * avgCharsPerWord;
+    output.innerHTML = wordsToTime(wordIndex * wordsAtATime);// * avgCharsPerWord;
 
     
 
     var end = document.getElementById("placeDestination");
-    end.innerHTML = (sortedBook.length - 1) * wordsAtATime;//length - (wordIndex * wordsPerLine);
+    end.innerHTML = wordsToTime(((sortedBook.length - 1) * wordsAtATime) - (wordIndex * wordsAtATime));//length - (wordIndex * wordsPerLine);
 }
 
 function toggle() 
@@ -314,6 +312,53 @@ function toggle()
     }
 }
 
+function wordsToTime(numWords)
+{
+    var numStops = numWords / wordsAtATime;
+    
+    var numHours = Math.floor(numStops / (60 * 60));
+    numStops = numStops % (60 * 60);
+    console.log(numHours);
+    
+    var numMinutes = Math.floor(numStops / 60);
+    numStops = numStops % 60;
+    console.log(numMinutes);
+    
+    var numSeconds = numStops;
+    console.log(numSeconds);
+
+    // Number of hours on the clock
+    if (numHours < 1)
+    {
+        numHours = "";
+        
+    }
+    else 
+    {
+        numHours = numHours + ":";
+    }
+
+
+    // Number of minutes on the clock    
+    if (numMinutes < 1)
+    {
+        numMinutes = "0:";
+    }
+    else
+    {
+        numMinutes = numMinutes + ":";
+    }
+
+    // Number of seconds on the clock
+    if (numSeconds < 1)
+    {
+        numSeconds = 0;
+    }
+
+    var time = numHours + numMinutes  + numSeconds;
+    console.log(time);
+    return time;
+}   
 
 
 function setBookmark(cookieName, cookieValue, expirationDays) {
