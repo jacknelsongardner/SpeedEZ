@@ -288,12 +288,11 @@ function updatePlaceSlider()
     slider.value = placeSlideVal;
 
     var output = document.getElementById("placeValue");
-    output.innerHTML = wordsToTime(wordIndex * wordsAtATime);// * avgCharsPerWord;
-
+    output.innerHTML = wordsToTime(wordIndex * wordsAtATime, wpm, wordsAtATime);// * avgCharsPerWord;
     
 
     var end = document.getElementById("placeDestination");
-    end.innerHTML = wordsToTime(((sortedBook.length - 1) * wordsAtATime) - (wordIndex * wordsAtATime));//length - (wordIndex * wordsPerLine);
+    end.innerHTML = wordsToTime(((sortedBook.length - 1) * wordsAtATime) - (wordIndex * wordsAtATime), wpm, wordsAtATime);//length - (wordIndex * wordsPerLine);
 }
 
 function toggle() 
@@ -312,53 +311,51 @@ function toggle()
     }
 }
 
-function wordsToTime(numWords)
-{
+function wordsToTime(numWords, wordsPerMinute, wordsAtATime) {
+    // Calculate the number of stops needed
     var numStops = numWords / wordsAtATime;
-    
-    var numHours = Math.floor(numStops / (60 * 60));
-    numStops = numStops % (60 * 60);
-    console.log(numHours);
-    
-    var numMinutes = Math.floor(numStops / 60);
-    numStops = numStops % 60;
-    console.log(numMinutes);
-    
-    var numSeconds = numStops;
-    console.log(numSeconds);
+
+    // Calculate words per second
+    var wordsPerSecond = wordsPerMinute / 60;
+
+    // Calculate the time per stop in seconds
+    var timePerStop = wordsAtATime / wordsPerSecond;
+
+    // Total time in seconds
+    var totalTimeInSeconds = numStops * timePerStop;
+
+    // Calculate hours, minutes, and seconds
+    var numHours = Math.floor(totalTimeInSeconds / 3600);
+    var numMinutes = Math.floor((totalTimeInSeconds % 3600) / 60);
+    var numSeconds = Math.floor(totalTimeInSeconds % 60);
+
+    // Format the time as HH:MM:SS
+    var formattedTime = "";
 
     // Number of hours on the clock
-    if (numHours < 1)
-    {
-        numHours = "";
-        
-    }
-    else 
-    {
-        numHours = numHours + ":";
+    if (numHours > 0) {
+        formattedTime += numHours + ":";
     }
 
-
-    // Number of minutes on the clock    
-    if (numMinutes < 1)
-    {
-        numMinutes = "0:";
-    }
-    else
-    {
-        numMinutes = numMinutes + ":";
+    // Number of minutes on the clock
+    if (numMinutes < 10) {
+        formattedTime += "0" + numMinutes + ":";
+    } else {
+        formattedTime += numMinutes + ":";
     }
 
     // Number of seconds on the clock
-    if (numSeconds < 1)
-    {
-        numSeconds = 0;
+    if (numSeconds < 10) {
+        formattedTime += "0" + numSeconds;
+    } else {
+        formattedTime += numSeconds;
     }
 
-    var time = numHours + numMinutes  + numSeconds;
-    console.log(time);
-    return time;
-}   
+    console.log(formattedTime);
+    return formattedTime;
+}
+
+
 
 
 function setBookmark(cookieName, cookieValue, expirationDays) {
