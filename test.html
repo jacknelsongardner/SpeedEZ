@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider Example</title>
+    <style>
+        /* Optional styling for clarity */
+        #sliderValue {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <label for="slider">Slider:</label>
+    <input type="range" id="slider" name="slider" min="0" max="100" value="50" oninput="updateValue(this)">
+    <p>Value: <span id="sliderValue">50</span></p>
+
+    <script>
+        function updateValue(slider) {
+            document.getElementById('sliderValue').textContent = slider.value;
+        }
+    </script>
+</body>
+</html>

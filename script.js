@@ -197,7 +197,7 @@ function updateWordsAtATime()
 
     loadWords();  
     updatePlaceSlider();
-    
+
 }
 
 function displayCoverPage(pdfData) {
@@ -587,4 +587,25 @@ function keyPressed(event) {
     {
         stepForward();
     }
+}
+
+function jumpProgress()
+{
+    console.log("Jumping progress");
+
+    var slider = document.getElementById("placeSlider");
+    var sliderValue = parseInt(slider.value);
+    console.log(sliderValue);
+
+    var percentProgress = sliderValue / 100;
+    console.log(percentProgress);
+
+    var actualProgress =  percentProgress * sortedBook.length; 
+    console.log(actualProgress);
+
+
+    wordIndex = Math.floor(actualProgress);
+    console.log(wordIndex);
+
+    loadWords();
 }
