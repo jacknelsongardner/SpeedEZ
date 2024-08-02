@@ -66,7 +66,7 @@
         
 
         .slider::-moz-range-thumb {
-        width: 1px;
+        width: 15px;
         height: 15px;
         background: #ffffff;
         border-color: rgb(232, 232, 232);

@@ -194,7 +194,10 @@ function updateWordsAtATime()
         
     }
 
-    loadWords();    
+
+    loadWords();  
+    updatePlaceSlider();
+    
 }
 
 function displayCoverPage(pdfData) {
