@@ -152,8 +152,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
     });
 
-
-
 });
 
 
@@ -196,7 +194,10 @@ function updateWordsAtATime()
         
     }
 
-    loadWords();    
+
+    loadWords();  
+    updatePlaceSlider();
+
 }
 
 function displayCoverPage(pdfData) {
@@ -290,12 +291,11 @@ function updatePlaceSlider()
     slider.value = placeSlideVal;
 
     var output = document.getElementById("placeValue");
-    output.innerHTML = wordIndex * wordsAtATime;// * avgCharsPerWord;
-
+    output.innerHTML = wordsToTime(wordIndex * wordsAtATime, wpm, wordsAtATime);// * avgCharsPerWord;
     
 
     var end = document.getElementById("placeDestination");
-    end.innerHTML = (sortedBook.length - 1) * wordsAtATime;//length - (wordIndex * wordsPerLine);
+    end.innerHTML = wordsToTime(((sortedBook.length - 1) * wordsAtATime) - (wordIndex * wordsAtATime), wpm, wordsAtATime);//length - (wordIndex * wordsPerLine);
 }
 
 function toggle() 
@@ -313,6 +313,51 @@ function toggle()
         button.textContent = "\u25B6";
     }
 }
+
+function wordsToTime(numWords, wordsPerMinute, wordsAtATime) {
+    // Calculate the number of stops needed
+    var numStops = numWords / wordsAtATime;
+
+    // Calculate words per second
+    var wordsPerSecond = wordsPerMinute / 60;
+
+    // Calculate the time per stop in seconds
+    var timePerStop = wordsAtATime / wordsPerSecond;
+
+    // Total time in seconds
+    var totalTimeInSeconds = numStops * timePerStop;
+
+    // Calculate hours, minutes, and seconds
+    var numHours = Math.floor(totalTimeInSeconds / 3600);
+    var numMinutes = Math.floor((totalTimeInSeconds % 3600) / 60);
+    var numSeconds = Math.floor(totalTimeInSeconds % 60);
+
+    // Format the time as HH:MM:SS
+    var formattedTime = "";
+
+    // Number of hours on the clock
+    if (numHours > 0) {
+        formattedTime += numHours + ":";
+    }
+
+    // Number of minutes on the clock
+    if (numMinutes < 10) {
+        formattedTime += "0" + numMinutes + ":";
+    } else {
+        formattedTime += numMinutes + ":";
+    }
+
+    // Number of seconds on the clock
+    if (numSeconds < 10) {
+        formattedTime += "0" + numSeconds;
+    } else {
+        formattedTime += numSeconds;
+    }
+
+    console.log(formattedTime);
+    return formattedTime;
+}
+
 
 
 
@@ -542,4 +587,25 @@ function keyPressed(event) {
     {
         stepForward();
     }
+}
+
+function jumpProgress()
+{
+    console.log("Jumping progress");
+
+    var slider = document.getElementById("placeSlider");
+    var sliderValue = parseInt(slider.value);
+    console.log(sliderValue);
+
+    var percentProgress = sliderValue / 100;
+    console.log(percentProgress);
+
+    var actualProgress =  percentProgress * sortedBook.length; 
+    console.log(actualProgress);
+
+
+    wordIndex = Math.floor(actualProgress);
+    console.log(wordIndex);
+
+    loadWords();
 }

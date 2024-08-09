@@ -23,7 +23,7 @@
     
             <div id="textContainer" style="margin-top: 50px;  min-width: 400px; margin-bottom: 50px;">
                 
-                <h2 id="lastWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem); color: rgb(159, 159, 159);">Last piece of text goes here</h2>
+                <h2 id="lastWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem); color: rgb(159, 159, 159); ">Last piece of text goes here</h2>
 
                 <h2 id="speedWords" class="text-center" style="margin-top: 40px; margin-bottom: 40px; margin-right: 10px; margin-left: 10px; white-space: nowrap; font-size: clamp(1rem, 2.5vw, 2rem);  color: rgb(0, 0, 0);">Curent piece of text goes here</h2>
                 
@@ -42,10 +42,10 @@
                 
                 <div class="row" style="display: block; text-align: center; ">
                     
-                    <div style="display: inline-block; text-align: center; ">
-                        <p id="placeValue" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px; color: white;">0</p>
-                        <input type="range" min="0" max="100" value="0" class="slider" id="placeSlider" disabled style="display: inline-block; vertical-align: middle; margin: 0 15px; background-color: white;">
-                        <p id="placeDestination" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px; color: white;">0</p>
+                    <div class="col-12"style="display: inline-block; text-align: center; ">
+                        <p id="placeValue" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px; color:#ffffff;">0</p>
+                        <input type="range" min="0" max="100" value="0" class="slider" oninput="jumpProgress()" id="placeSlider" style="display: inline-block; vertical-align: middle; margin: 0 15px; background-color: white;">
+                        <p id="placeDestination" style="display: inline-block; vertical-align: middle; margin: 0 15px; width: 30px; color:#ffffff;">0</p>
                     </div>
 
                 </div>
@@ -104,7 +104,7 @@
                             <div style="text-align: center; margin-top: 20px;">
                                 <p style="display: inline-block; margin-right: 10px;">Words At A Time :</p>
                                 <p style="display: inline-block; margin-right: 10px;"><span id="wordValue">500</span></p>
-                                <input type="range" min="2" max="8" value="5" class="slider" id="wordSlider">
+                                <input type="range" min="2" max="5" value="5" class="slider" id="wordSlider" >
                             </div>
 
                         </div>
@@ -146,7 +146,7 @@
                             
                            
                             
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="loadWords()">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="loadWords()">Save Changes</button>
                             <!-- Additional buttons if needed -->
                         </div>
                     </div>
@@ -170,7 +170,7 @@
     <script>
         window.onload = function() {
             // Your code here
-            var tutorialString = "Welcome to SpeedEZ, the ultimate app for enhancing your reading efficiency with the power of speed reading. Unlike other apps, SpeedEZ allows you to stepthrough a body of text, save book marks for documents you upload, and (coming soon) submit your what you read to teh GPT Api and ask customized questions to tour comprehension levels. Whether you're skimming through articles, diving into novels, or studying complex materials, SpeedEZ has you covered. "
+            var tutorialString = "Welcome to SpeedEZ, the ultimate app for enhancing your reading efficiency with the power of speed reading. Unlike other apps, SpeedEZ allows you to stepthrough a body of text, backtrack step by step, save book marks for documents you upload, and dynamically change your reading speed while in a reading session. Whether you're skimming through articles, diving into novels, or studying complex materials, SpeedEZ has you covered. "
             sessionStorage.setItem(locationName, JSON.stringify(tutorialString));
             updateWordsAtATime();
             loadWords();
