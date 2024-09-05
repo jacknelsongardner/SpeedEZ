@@ -43,16 +43,30 @@ Whether you're a casual reader or someone looking to enhance reading speed while
 
 ## Design Philosophy
 
-![Interface Screenshot](path/to/interface-screenshot.png)
-
 **SpeedEZ** was developed with the goal of creating a speedreading app that is both functional and visually pleasing, catering to users who want to integrate speedreading into their daily routine. 
 
 The app’s interface is designed to be clean and user-friendly, emphasizing ease of use and aesthetic appeal. Unlike other speedreading tools that are often used for practice, SpeedEZ is meant to be a tool for regular use, helping you read more efficiently while still enjoying the reading experience.
 
 ---
 
+## Future Developments
+
+SpeedEZ is continuously evolving to offer a more seamless and engaging reading experience. Below are some planned enhancements:
+
+### 1. **Conversion to React**
+   - **Scalability and Performance:** SpeedEZ will be re-engineered using React for improved scalability and performance, enabling faster load times, a more responsive interface, and better scalability for future features.
+
+### 2. **HTML Page Text Scraping**
+   - **Grabbing Text from Web Pages:** Future versions of SpeedEZ will include the ability to extract text directly from an HTML page. This will allow users to import and speedread articles, blogs, or other web content without needing to copy and past text.
+
+### 3. **Display Previously Uploaded Material**
+   - **Library of Past Uploads:** Users will be able to access a library of previously uploaded files, making it easy to return to books or documents they've read before without re-uploading them.
+
+### 4. **Personalized Comprehension Quizzes**
+   - **AI-Powered Quizzes:** SpeedEZ will integrate with ChatAPI to generate personalized comprehension quizzes based on the material you’ve read. These quizzes will help reinforce learning and comprehension, making the speedreading process not only faster but also more effective.
+
 ## Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/SpeedEZ.git
+   git clone https://github.com/jacknelsongardner/SpeedEZ.git
