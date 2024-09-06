@@ -1,6 +1,8 @@
 # SpeedEZ Speedreading Program
 
 ![SpeedEZ](docs/screenshot_main.png)
+To try it out yourself, click the link below:
+https://jacknelsongardner.github.io/SpeedEZ/
 
 ## Overview
 **SpeedEZ** is a sleek and intuitive speedreading application designed for the web. Unlike traditional speedreading tools that are primarily geared toward practice, SpeedEZ is intended for continuous use, providing a comfortable and visually appealing reading experience. 
