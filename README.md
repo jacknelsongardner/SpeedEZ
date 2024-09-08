@@ -1,4 +1,4 @@
-# SpeedEZ Speedreading Program
+# SpeedEZ Web App
 
 ![SpeedEZ](docs/screenshot_main.png)
 To try it out yourself, click the link below:
